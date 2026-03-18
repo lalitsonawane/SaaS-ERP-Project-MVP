@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import dotenv from 'dotenv';
 import authPlugin from './plugins/auth';
 import { authRoutes } from './routes/auth';
+import { invoiceRoutes } from './routes/invoices';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ server.register(cors, {
 
 server.register(authPlugin);
 server.register(authRoutes, { prefix: '/api/auth' });
+server.register(invoiceRoutes, { prefix: '/api/invoices' });
 
 server.get('/api/health', async (request: FastifyRequest, reply: FastifyReply) => {
   return { status: 'healthy', timestamp: new Date().toISOString() };

@@ -51,3 +51,27 @@ export const products = pgTable('products', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
+
+export const invoices = pgTable('invoices', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id),
+  customerId: uuid('customer_id').notNull().references(() => customers.id),
+  invoiceNumber: text('invoice_number').notNull(),
+  date: timestamp('date').defaultNow().notNull(),
+  totalAmount: text('total_amount').notNull(),
+  status: text('status').default('draft').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const invoiceItems = pgTable('invoice_items', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id),
+  invoiceId: uuid('invoice_id').notNull().references(() => invoices.id, { onDelete: 'cascade' }),
+  productId: uuid('product_id').notNull().references(() => products.id),
+  quantity: text('quantity').notNull(),
+  unitPrice: text('unit_price').notNull(),
+  totalPrice: text('total_price').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
