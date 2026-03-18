@@ -1,11 +1,10 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import bcrypt from 'bcryptjs';
-import { db, users, tenants } from 'db';
-import { eq } from 'drizzle-orm';
+import { db, users, tenants, eq } from 'db';
 
 export const authRoutes: FastifyPluginAsync = async (server: FastifyInstance) => {
   server.post<{ Body: any }>('/register', async (request, reply) => {
-    const { email, password, name, tenantName } = request.body;
+    const { email, password, name, tenantName } = request.body as any;
     
     // Check if user exists
     const [existing] = await db.select().from(users).where(eq(users.email, email)).limit(1);
@@ -47,7 +46,7 @@ export const authRoutes: FastifyPluginAsync = async (server: FastifyInstance) =>
   });
 
   server.post<{ Body: any }>('/login', async (request, reply) => {
-    const { email, password } = request.body;
+    const { email, password } = request.body as any;
 
     const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
     
