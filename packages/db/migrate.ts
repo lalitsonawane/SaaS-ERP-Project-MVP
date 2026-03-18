@@ -17,7 +17,11 @@ async function main() {
 
   console.log('Enabling Row-Level Security on tenant-isolated tables...');
   
-  const tables = ['users', 'audit_logs', 'customers', 'products'];
+  const tables = [
+    'users', 'audit_logs', 'customers', 'products', 'invoices', 'invoice_items',
+    'vendors', 'purchase_orders', 'purchase_order_items', 'accounts',
+    'journal_entries', 'journal_entry_lines', 'employees', 'leads'
+  ];
   const client = await pool.connect();
   
   try {
