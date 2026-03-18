@@ -1,7 +1,8 @@
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import cors from '@fastify/cors';
 import dotenv from 'dotenv';
-
+import authPlugin from './plugins/auth';
+import { authRoutes } from './routes/auth';
 
 dotenv.config();
 
@@ -12,6 +13,9 @@ const server = Fastify({
 server.register(cors, {
   origin: '*'
 });
+
+server.register(authPlugin);
+server.register(authRoutes, { prefix: '/api/auth' });
 
 server.get('/api/health', async (request: FastifyRequest, reply: FastifyReply) => {
   return { status: 'healthy', timestamp: new Date().toISOString() };

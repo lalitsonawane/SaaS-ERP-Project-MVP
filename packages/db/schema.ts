@@ -12,6 +12,7 @@ export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
   tenantId: uuid('tenant_id').notNull().references(() => tenants.id),
   email: text('email').notNull().unique(),
+  passwordHash: text('password_hash').notNull(),
   name: text('name').notNull(),
   role: text('role').default('user').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
